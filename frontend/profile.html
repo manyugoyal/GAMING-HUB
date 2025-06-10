@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gaming Hub - Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --primary-dark: #5649c0;
+      --danger: #ff7675;
+      --danger-dark: #e84393;
+      --success: #00b894;
+      --success-dark: #00a884;
+      --text: #2d3436;
+      --text-light: #636e72;
+      --bg: #f5f6fa;
+      --card-bg: #ffffff;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      color: var(--text);
+    }
+
+    .profile-container {
+      background: var(--card-bg);
+      padding: 40px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transform: translateY(0);
+      transition: var(--transition);
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: var(--text);
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .profile-info {
+      margin-top: 2rem;
+      font-size: 1rem;
+      color: var(--text-light);
+      text-align: left;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title i {
+      color: var(--primary);
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      padding: 14px 16px;
+      width: 100%;
+      border: 2px solid #dfe6e9;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: var(--transition);
+      background-color: #f8f9fa;
+      color: var(--text);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: var(--danger-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background-color: var(--success-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn i {
+      font-size: 1.1rem;
+    }
+
+    .divider {
+      margin: 25px 0;
+      border: 0;
+      height: 1px;
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(108, 92, 231, 0.5), rgba(0, 0, 0, 0));
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 25px 0;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      cursor: pointer;
+    }
+
+    .liked-games {
+      margin-top: 20px;
+    }
+
+    .game-tag {
+      display: inline-block;
+      background-color: #dfe6e9;
+      padding: 5px 10px;
+      border-radius: 20px;
+      margin: 5px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .profile-container {
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <div class="avatar" id="avatar">
+      <!-- First letter of username will be displayed here -->
+    </div>
+    
+    <h1>Welcome, <span id="username"></span>!</h1>
+    <p style="color: var(--text-light); font-size: 0.9rem;">Gaming Hub Premium Member</p>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-value" id="games-count">0</div>
+        <div class="stat-label">Games</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">42</div>
+        <div class="stat-label">Friends</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">1,254</div>
+        <div class="stat-label">Hours</div>
+      </div>
+    </div>
+
+    <div class="profile-info">
+      <h3 class="section-title"><i class="fas fa-lock"></i> Account Security</h3>
+      
+      <div class="input-group">
+        <input type="password" id="current-password" placeholder="Current Password" />
+        <span class="password-toggle"><i class="fas fa-eye"></i></span>
+      </div>
+      
+      <div class="input-group">
+        <input type="password" id="new-password" placeholder="New Password" />
+        <span class="password-toggle"><i class="fas fa-eye"></i></span>
+      </div>
+      
+      <div class="input-group">
+        <input type="password" id="confirm-password" placeholder="Confirm New Password" />
+        <span class="password-toggle"><i class="fas fa-eye"></i></span>
+      </div>
+      
+      <button class="btn btn-success" onclick="changePassword()">
+        <i class="fas fa-key"></i> Change Password
+      </button>
+    </div>
+
+    <div class="liked-games">
+      <h3 class="section-title"><i class="fas fa-heart"></i> Liked Games</h3>
+      <div id="games-list"></div>
+    </div>
+
+    <hr class="divider">
+
+    <button class="btn btn-primary" onclick="logout()">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+    
+    <button class="btn btn-danger" onclick="deleteAccount()">
+      <i class="fas fa-trash-alt"></i> Delete Account
+    </button>
+  </div>
+
+  <script>
+    // Get token from localStorage
+    const authToken = localStorage.getItem('authToken');
+    
+    if (!authToken) {
+      window.location.href = 'game-selection.html'; // Redirect if not logged in
+    }
+
+    // Fetch user profile data
+    async function fetchProfile() {
+      try {
+        const response = await fetch('http://localhost:3000/profile', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile');
+        }
+
+        const data = await response.json();
+        
+        if (data.success) {
+          // Display user data
+          document.getElementById('username').textContent = data.username;
+          document.getElementById('avatar').textContent = data.username.charAt(0).toUpperCase();
+          
+          // Display liked games
+          const gamesList = document.getElementById('games-list');
+          if (data.likedGames && data.likedGames.length > 0) {
+            document.getElementById('games-count').textContent = data.likedGames.length;
+            gamesList.innerHTML = data.likedGames.map(game => 
+              `<span class="game-tag">${game}</span>`
+            ).join('');
+          } else {
+            gamesList.innerHTML = '<p>No games liked yet</p>';
+          }
+        } else {
+          alert(data.message || 'Error loading profile');
+        }
+      } catch (error) {
+        console.error('Profile fetch error:', error);
+        alert('Error loading profile data');
+      }
+    }
+
+    // Password toggle functionality
+    document.querySelectorAll('.password-toggle').forEach(toggle => {
+      toggle.addEventListener('click', function() {
+        const input = this.parentElement.querySelector('input');
+        const icon = this.querySelector('i');
+        
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
+      });
+    });
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = 'game-selection.html'; // Redirect to game selection page
+    }
+
+    // Delete account function
+    async function deleteAccount() {
+      try {
+        const response = await fetch('http://localhost:3000/delete-account', {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          localStorage.removeItem('authToken');
+          window.location.href = 'game-selection.html'; // Redirect to game selection page
+        } else {
+          alert(data.message || 'Error deleting account');
+        }
+      } catch (error) {
+        console.error('Delete account error:', error);
+        alert('Error deleting account');
+      }
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', fetchProfile);
+  </script>
+</body>
+</html>

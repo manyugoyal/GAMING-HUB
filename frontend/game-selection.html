@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaming Hub - Game Selection</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(120deg, #3498db, #9b59b6);
+      color: #fff;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 30px 0;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      letter-spacing: 2px;
+    }
+
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .loading-spinner {
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top: 5px solid #4caf50;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .category-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin: 40px 0;
+      justify-content: center;
+    }
+    
+    .category {
+      flex: 1;
+      min-width: 300px;
+      max-width: 450px;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .category:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+    
+    .category h3 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      position: relative;
+      padding-bottom: 10px;
+      color: #4caf50;
+    }
+
+    .category h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: #4caf50;
+    }
+    
+    .game-list {
+      list-style: none;
+    }
+    
+    .game-list li {
+      margin: 15px 0;
+    }
+
+    .game-list a {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      color: #fff;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .game-list a:hover {
+      background: rgba(76, 175, 80, 0.3);
+      transform: translateX(5px);
+    }
+
+    .game-list a i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      color: #4caf50;
+    }
+    
+    .user-info {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .user-info .welcome {
+      font-size: 1.2rem;
+    }
+    
+    .logout-btn {
+      padding: 10px 20px;
+      background: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    
+    .logout-btn:hover {
+      background: #cc0000;
+      transform: scale(1.05);
+    }
+
+    .profile-btn {
+      padding: 12px 25px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .profile-btn:hover {
+      background: #45a049;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    footer a {
+      color: #4caf50;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      background: rgba(255, 0, 0, 0.2);
+      border-left: 4px solid #ff4444;
+      padding: 15px;
+      margin: 20px 0;
+      color: #fff;
+      border-radius: 5px;
+      display: none;
+    }
+    .leaderboard-btn {
+  background-color: #00b894;
+  color: white;
+  padding: 10px 14px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.leaderboard-btn:hover {
+  background-color: #00a884;
+  transform: translateY(-2px);
+}
+
+.leaderboard-btn i {
+  font-size: 1rem;
+}
+.admin-btn {
+  padding: 10px 20px;
+  background: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.admin-btn:hover {
+  background: #e67e22;
+  transform: scale(1.05);
+}
+
+.admin-btn i {
+  margin-right: 8px;
+}
+
+
+  </style>
+  
+</head>
+<body>
+  
+  <button class="admin-btn" id="admin-btn">
+    <i class="fas fa-cogs"></i> Admin
+  </button>
+  
+  <div class="container">
+    <div class="user-info">
+      <div class="welcome" id="welcome-message">Welcome to Gaming Hub</div>
+      <!-- Profile Button -->
+      <button class="profile-btn" id="profile-btn">
+        <i class="fas fa-user"></i> Profile
+      </button>
+      <button class="logout-btn" id="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+
+    <div class="error-message" id="error-message">
+      Authentication error. Please try logging in again.
+    </div>
+    
+    <h1>Game Selection</h1>
+
+    <div class="category-container">
+      <div class="category" id="offline-games">
+        <h3><i class="fas fa-gamepad"></i> Offline Games</h3>
+        <ul class="game-list">
+          <li><a href="sudoku.html"><i class="fas fa-puzzle-piece"></i> Sudoku</a></li>
+          <li><a href="tictactoe.html"><i class="fas fa-th"></i> Tic Tac Toe</a></li>
+          <li><a href="pacman.html"><i class="fas fa-ghost"></i> Pacman</a></li>
+        </ul>
+      </div>
+
+      <div class="category" id="online-games">
+        <h3><i class="fas fa-globe"></i> Online Games</h3>
+        <ul class="game-list">
+          <li><a href="online.html"><i class="fas fa-users"></i> Multiplayer Games</a></li>
+          <li><a href="chess.html"><i class="fas fa-chess"></i> Online Chess</a></li>
+          <li><a href="https://www.britannica.com/quiz/browse"><i class="fas fa-question-circle"></i> Trivia Challenge</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      <p>Powered by <a href="https://www.gaminghub.com" target="_blank">Gaming Hub</a> | &copy; 2025</p>
+    </footer>
+  </div>
+
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+  <button class="btn btn-primary leaderboard-btn" onclick="viewLeaderboard()">
+    <i class="fas fa-trophy"></i> View Leaderboard
+  </button>
+  
+ 
+  
+
+  <script>
+    document.getElementById('admin-btn').addEventListener('click', function() {
+  window.location.href = 'admin.html'; 
+});
+
+    
+    function viewLeaderboard() {
+    window.location.href = 'leaderboard.html'; // Redirect to leaderboard page
+  }
+    const API_BASE_URL = 'http://localhost:3000';
+    const LOGIN_PAGE = 'main.html';
+    const PROFILE_PAGE = 'profile.html';  // Profile page URL
+  
+    // DOM Elements
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const errorMessage = document.getElementById('error-message');
+    const logoutButton = document.getElementById('logout-btn');
+    const profileButton = document.getElementById('profile-btn');  // Profile button element
+  
+    // Show/hide loading overlay
+    const showLoading = () => loadingOverlay.style.display = 'flex';
+    const hideLoading = () => loadingOverlay.style.display = 'none';
+  
+    const redirectToLogin = () => {
+      localStorage.removeItem('authToken');
+      window.location.href = LOGIN_PAGE;
+    };
+  
+    // Show error message
+    const showError = (message) => {
+      errorMessage.textContent = message || 'Authentication error. Please try logging in again.';
+      errorMessage.style.display = 'block';
+    };
+  
+   
+    const getUsername = () => {
+      return localStorage.getItem('username') || 'Player';
+    };
+  
+    const initializePage = async () => {
+      showLoading();
+  
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        redirectToLogin();
+        return;
+      }
+  
+      try {
+        // Verify token with server
+        const response = await fetch(`${API_BASE_URL}/verify-token`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+  
+        if (!response.ok) {
+          throw new Error('Invalid token');
+        }
+  
+        // Update UI
+        welcomeMessage.textContent = `Welcome, ${getUsername()}!`;
+  
+      } catch (error) {
+        console.error('Initialization error:', error);
+        showError();
+        setTimeout(redirectToLogin, 3000);
+      } finally {
+        hideLoading();
+      }
+    };
+  
+    // Logout handler
+    const logout = () => {
+      showLoading();
+      setTimeout(() => {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('username');
+        redirectToLogin();
+      }, 500);
+    };
+  
+    // Profile button click handler
+    const goToProfile = () => {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        redirectToLogin();
+        return;
+      }
+    
+      window.location.href = `${PROFILE_PAGE}?token=${token}`;
+    };
+  
+   
+    document.addEventListener('DOMContentLoaded', initializePage);
+    logoutButton.addEventListener('click', logout);
+    profileButton.addEventListener('click', goToProfile);  // Profile button event listener
+  </script>
+</body>
+</html>

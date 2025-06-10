@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sudoku Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #2c3e50;
+      color: white;
+      margin: 0;
+    }
+
+    .sudoku-container {
+      display: grid;
+      grid-template-columns: repeat(9, 50px);
+      grid-gap: 5px;
+      background: #34495e;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .cell {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #2b1a5c;
+      border: 1px solid #bdc3c7;
+      font-size: 1.5rem;
+    }
+
+    .cell input {
+      width: 90%;
+      height: 90%;
+      font-size: 1.5rem;
+      text-align: center;
+      border: none;
+      background-color: transparent;
+      color: #bd141d;
+    }
+
+    button {
+      background-color: #063f1e;
+      color: white;
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #24cb24;
+    }
+  </style>
+</head>
+<body>
+  <div class="sudoku-game">
+    <h1>Sudoku</h1>
+    <div class="sudoku-container" id="sudoku-grid">
+    
+    </div>
+    <button onclick="checkSolution()">Check Solution</button>
+  </div>
+
+  <script>
+    
+    const sudokuGrid = [
+      [5, 3, 0, 0, 7, 0, 0, 0, 0],
+      [6, 0, 0, 1, 9, 5, 0, 0, 0],
+      [0, 9, 8, 0, 0, 0, 0, 6, 0],
+      [8, 0, 0, 0, 6, 0, 0, 0, 3],
+      [4, 0, 0, 8, 0, 3, 0, 0, 1],
+      [7, 0, 0, 0, 2, 0, 0, 0, 6],
+      [0, 6, 0, 0, 0, 0, 2, 8, 0],
+      [0, 0, 0, 4, 1, 9, 0, 0, 5],
+      [0, 0, 0, 0, 8, 0, 0, 7, 9]
+    ];
+
+    function createGrid() {
+      const gridContainer = document.getElementById("sudoku-grid");
+
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+
+
+          if (sudokuGrid[i][j] !== 0) {
+            cell.textContent = sudokuGrid[i][j];
+          } else {
+            const input = document.createElement("input");
+            input.type = "number";
+            input.min = "1";
+            input.max = "9";
+            input.maxLength = 1;
+            input.setAttribute("data-row", i);
+            input.setAttribute("data-col", j);
+            cell.appendChild(input);
+          }
+
+          gridContainer.appendChild(cell);
+        }
+      }
+    }
+
+    // Function to check the solution
+    function checkSolution() {
+      const inputs = document.querySelectorAll('.cell input');
+      let isCorrect = true;
+
+      inputs.forEach(input => {
+        const row = input.getAttribute('data-row');
+        const col = input.getAttribute('data-col');
+        const value = parseInt(input.value);
+
+        if (sudokuGrid[row][col] !== value) {
+          isCorrect = false;
+        }
+      });
+
+      if (isCorrect) {
+        alert('Congratulations! The solution is correct.');
+      } else {
+        alert('Some values are incorrect. Please try again.');
+      }
+    }
+
+    // Initialize the Sudoku grid
+    createGrid();
+  </script>
+</body>
+</html>

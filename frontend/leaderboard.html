@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Leaderboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+        
+        .leaderboard {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+        }
+        
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .leaderboard-list {
+            list-style: none;
+        }
+        
+        .player {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .player:hover {
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateX(5px);
+        }
+        
+        .player-rank {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            color: var(--light);
+        }
+        
+        .player-rank.top-1 {
+            background: linear-gradient(135deg, #ffd700, #ff9500);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .player-rank.top-2 {
+            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.3);
+        }
+        
+        .player-rank.top-3 {
+            background: linear-gradient(135deg, #cd7f32, #a05a2c);
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.3);
+        }
+        
+        .player-info {
+            flex: 1;
+            margin: 0 1.5rem;
+        }
+        
+        .player-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .player-game {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .player-score {
+            font-weight: bold;
+            color: var(--success);
+        }
+        
+        .last-updated {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .medal {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-trophy medal"></i>Leaderboard</h1>
+            <p class="subtitle">Top players across all games</p>
+        </header>
+        
+        <div class="leaderboard">
+            <div class="leaderboard-header">
+                <span>Player</span>
+                <span>Score</span>
+            </div>
+            
+            <ul class="leaderboard-list" id="leaderboard-list">
+                <!-- Players will be inserted here by JavaScript -->
+            </ul>
+        </div>
+        
+        <p class="last-updated">Last updated: <span id="update-time"></span></p>
+    </div>
+
+    <script>
+        // Sample data - replace with your actual data from API
+        const players = [
+            { name: "Manyu goyal", game: "Valorant", score: 9850 },
+            { name: "Manan Joshi", game: "leetcode", score: 8765 },
+            { name: "Jashnoor singh hunjan", game: "     ", score: 7654 },
+            { name: "Himanshi chouhan", game: "makeup", score: 7432 },
+            { name: "___________", game: "Shadow Fight", score: 6987 },
+            { name: "___________", game: "Retro World", score: 6543 },
+
+        ];
+
+        // Get DOM elements
+        const leaderboardList = document.getElementById('leaderboard-list');
+        const updateTime = document.getElementById('update-time');
+        
+        // Format current time
+        const now = new Date();
+        updateTime.textContent = now.toLocaleString();
+        
+        // Generate leaderboard items
+        players.forEach((player, index) => {
+            const playerEl = document.createElement('li');
+            playerEl.className = 'player';
+            
+            // Add special class for top 3 players
+            const rankClass = index < 3 ? `top-${index + 1}` : '';
+            
+            playerEl.innerHTML = `
+                <div class="player-rank ${rankClass}">${index + 1}</div>
+                <div class="player-info">
+                    <div class="player-name">${player.name}</div>
+                    <div class="player-game">${player.game}</div>
+                </div>
+                <div class="player-score">${player.score.toLocaleString()}</div>
+            `;
+            
+            leaderboardList.appendChild(playerEl);
+        });
+
+        // Add animation to items
+        document.querySelectorAll('.player').forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.1}s`;
+        });
+    </script>
+</body>
+</html>

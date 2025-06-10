@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tic Tac Toe</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #2c3e50;
+      color: white;
+      margin: 0;
+      flex-direction: column;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+      background-color: #34495e;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ecf0f1;
+      font-size: 2rem;
+      color: #34495e;
+      border: 2px solid #bdc3c7;
+      cursor: pointer;
+    }
+
+    .cell.taken {
+      pointer-events: none;
+      background-color: #bdc3c7;
+    }
+
+    button {
+      background-color: #27ae60;
+      color: white;
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2ecc71;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Tic Tac Toe</h1>
+  <div class="board" id="board">
+    <!-- Tic Tac Toe board will be generated here -->
+  </div>
+  <button onclick="resetGame()">Restart Game</button>
+
+  <script>
+    const board = document.getElementById('board');
+    let currentPlayer = 'X';  // Start with Player 'X'
+    let gameBoard = Array(9).fill(null); // Initialize an empty 3x3 board
+
+    // Function to create the board
+    function createBoard() {
+      board.innerHTML = ''; // Clear the board
+      gameBoard.forEach((cell, index) => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+        if (cell) {
+          cellDiv.textContent = cell;
+          cellDiv.classList.add('taken');
+        }
+        cellDiv.addEventListener('click', () => makeMove(index));
+        board.appendChild(cellDiv);
+      });
+    }
+
+    // Function to handle player moves
+    function makeMove(index) {
+      if (gameBoard[index] || checkWinner()) return; // Cell is already taken or game over
+
+      gameBoard[index] = currentPlayer;
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X'; // Switch player
+      createBoard();
+
+      // Check for winner after each move
+      if (checkWinner()) {
+        setTimeout(() => alert(`${gameBoard[index]} wins!`), 100);
+      } else if (gameBoard.every(cell => cell)) {
+        setTimeout(() => alert('It\'s a draw!'), 100);
+      }
+    }
+
+
+    function checkWinner() {
+      const winPatterns = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontal
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Vertical
+        [0, 4, 8], [2, 4, 6] // Diagonal
+      ];
+
+      for (let pattern of winPatterns) {
+        const [a, b, c] = pattern;
+        if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // Function to reset the game
+    function resetGame() {
+      gameBoard = Array(9).fill(null); // Reset the game board
+      currentPlayer = 'X'; // Start again with Player 'X'
+      createBoard();
+    }
+
+    // Initialize the game
+    createBoard();
+  </script>
+</body>
+</html>
