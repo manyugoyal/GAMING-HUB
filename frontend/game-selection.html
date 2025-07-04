@@ -271,7 +271,7 @@
   <div class="container">
     <div class="user-info">
       <div class="welcome" id="welcome-message">Welcome to Gaming Hub</div>
-      <!-- Profile Button -->
+      
       <button class="profile-btn" id="profile-btn">
         <i class="fas fa-user"></i> Profile
       </button>
@@ -340,8 +340,7 @@
     const errorMessage = document.getElementById('error-message');
     const logoutButton = document.getElementById('logout-btn');
     const profileButton = document.getElementById('profile-btn');  // Profile button element
-  
-    // Show/hide loading overlay
+
     const showLoading = () => loadingOverlay.style.display = 'flex';
     const hideLoading = () => loadingOverlay.style.display = 'none';
   
@@ -380,7 +379,7 @@
           throw new Error('Invalid token');
         }
   
-        // Update UI
+
         welcomeMessage.textContent = `Welcome, ${getUsername()}!`;
   
       } catch (error) {

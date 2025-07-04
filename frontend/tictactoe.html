@@ -69,18 +69,18 @@
 <body>
   <h1>Tic Tac Toe</h1>
   <div class="board" id="board">
-    <!-- Tic Tac Toe board will be generated here -->
+  
   </div>
   <button onclick="resetGame()">Restart Game</button>
 
   <script>
     const board = document.getElementById('board');
-    let currentPlayer = 'X';  // Start with Player 'X'
-    let gameBoard = Array(9).fill(null); // Initialize an empty 3x3 board
+    let currentPlayer = 'X'; 
+    let gameBoard = Array(9).fill(null); 
 
-    // Function to create the board
+   
     function createBoard() {
-      board.innerHTML = ''; // Clear the board
+      board.innerHTML = ''; 
       gameBoard.forEach((cell, index) => {
         const cellDiv = document.createElement('div');
         cellDiv.classList.add('cell');
@@ -93,7 +93,7 @@
       });
     }
 
-    // Function to handle player moves
+    
     function makeMove(index) {
       if (gameBoard[index] || checkWinner()) return; // Cell is already taken or game over
 
@@ -101,7 +101,7 @@
       currentPlayer = currentPlayer === 'X' ? 'O' : 'X'; // Switch player
       createBoard();
 
-      // Check for winner after each move
+    
       if (checkWinner()) {
         setTimeout(() => alert(`${gameBoard[index]} wins!`), 100);
       } else if (gameBoard.every(cell => cell)) {

@@ -197,7 +197,7 @@
       opacity: 1;
     }
 
-    /* Loading Indicator */
+   
     .loader {
       display: none;
       border: 3px solid #f3f3f3;
@@ -270,7 +270,7 @@
     </p>
   </div>
 
-  <!-- Modal for Alerts -->
+  
   <div class="modal" id="modal" role="dialog" aria-labelledby="modal-header" aria-hidden="true">
     <div class="modal-content">
       <div class="modal-header" id="modal-header">Success!</div>
@@ -302,7 +302,7 @@
       document.getElementById("modal").classList.remove("show");
     }
   
-    // Password strength indicator
+
     passwordInput.addEventListener("input", () => {
       const strengthBar = document.getElementById("password-strength");
       const val = passwordInput.value;
@@ -315,7 +315,7 @@
       strengthBar.style.background = colors[strength];
     });
   
-    // Toggle between Login and Signup
+  
     toggleLink.addEventListener("click", () => {
       isLogin = !isLogin;
       formTitle.textContent = isLogin ? "Login" : "Sign Up";
@@ -328,7 +328,7 @@
       
       document.getElementById("toggle-text").innerHTML = newToggleText;
   
-      // Reattach the toggle listener since innerHTML was reset
+      
       document.getElementById("toggle-link").addEventListener("click", () => {
         toggleLink.click(); // Reuse the same function
       });
@@ -377,7 +377,6 @@
       }
     };
   
-    // Auto-redirect if token exists
     document.addEventListener("DOMContentLoaded", () => {
       const token = localStorage.getItem("authToken");
       if (token) {

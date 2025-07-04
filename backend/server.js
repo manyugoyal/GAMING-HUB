@@ -5,8 +5,6 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const path = require('path');
 const app = express();
-
-// Middleware
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../frontend')));
@@ -22,17 +20,13 @@ const userSchema = new mongoose.Schema({
   password: String,
   likedGames: [String]
 });
-
 const User = mongoose.model('User', userSchema);
-
 // Secret key for JWT
 const JWT_SECRET = 'your_jwt_secret';
-
 // Generate a JWT token
 function generateToken(username) {
   return jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
 }
-
 // Protect routes with JWT
 function authenticateToken(req, res, next) {
   const token = req.headers['authorization']?.split(' ')[1];
@@ -41,7 +35,6 @@ function authenticateToken(req, res, next) {
     console.warn("No token received");
     return res.status(401).send({ success: false, message: 'Unauthorized' });
   }
-
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) {
       console.error("Token verification failed:", err);
@@ -51,7 +44,6 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
-
 // Signup Route
 app.post('/signup', async (req, res) => {
   try {
@@ -61,7 +53,6 @@ app.post('/signup', async (req, res) => {
     if (existingUser) {
       return res.status(400).send({ success: false, message: 'Username already taken' });
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ username, password: hashedPassword, likedGames: [] });
     await newUser.save();
@@ -71,30 +62,24 @@ app.post('/signup', async (req, res) => {
     res.status(500).send({ success: false, message: 'Internal server error' });
   }
 });
-
 // Login Route
 app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
-
     if (!user) {
       return res.status(400).send({ success: false, message: 'User not found' });
     }
-
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).send({ success: false, message: 'Invalid password' });
     }
-
     const token = generateToken(user.username);
     res.status(200).send({ success: true, message: 'Login successful', token });
   } catch (err) {
     res.status(500).send({ success: false, message: 'Internal server error' });
   }
 });
-
-// Get Profile Route
 app.get('/profile', authenticateToken, async (req, res) => {
   try {
     const user = await User.findOne({ username: req.user.username });
@@ -109,17 +94,14 @@ app.get('/profile', authenticateToken, async (req, res) => {
   }
 });
 
-// Logout Route
 app.post('/logout', (req, res) => {
   res.status(200).send({ success: true, message: 'Logged out successfully' });
 });
 
-// Verify Token Route
 app.get('/verify-token', authenticateToken, (req, res) => {
   res.status(200).json({ success: true });
 });
 
-// Change Password Route
 app.put('/change-password', authenticateToken, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -143,8 +125,6 @@ app.put('/change-password', authenticateToken, async (req, res) => {
     res.status(500).send({ success: false, message: 'Internal server error' });
   }
 });
-
-// Delete Account Route
 app.delete('/delete-account', authenticateToken, async (req, res) => {
   try {
     const user = await User.findOneAndDelete({ username: req.user.username });
