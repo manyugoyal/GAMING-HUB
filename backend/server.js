@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -12,12 +13,13 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // MongoDB Atlas Connection
-mongoose.connect(process.env.MONGO_URI, {
+// Update connection code to:
+mongoose.connect(process.env.MONGO_URI || 'fallback_connection_string', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('✅ Connected to MongoDB Atlas'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+.then(() => console.log('MongoDB Connected'))
+.catch(err => console.log('Mongo Error:', err.message)); 
 
 const userSchema = new mongoose.Schema({
   username: String,
