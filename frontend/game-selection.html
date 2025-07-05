@@ -330,7 +330,10 @@
     function viewLeaderboard() {
     window.location.href = 'leaderboard.html'; // Redirect to leaderboard page
   }
-    const API_BASE_URL = 'http://localhost:3000';
+   const API_BASE_URL = window.location.hostname.includes('localhost')
+  ? 'http://localhost:3000'
+  : 'https://gaming-hub-o91w.onrender.com';
+
     const LOGIN_PAGE = 'index.html';
     const PROFILE_PAGE = 'profile.html';  // Profile page URL
   
