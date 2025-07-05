@@ -9,7 +9,15 @@ require('dotenv').config();  // Load environment variables
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5500',       // for local dev
+    'https://manyug.vercel.app'    
+  ],
+  credentials: true
+}));
+
+
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // MongoDB Atlas Connection
