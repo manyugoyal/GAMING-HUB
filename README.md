@@ -74,7 +74,7 @@ Create a .env file in backend/:
 MONGO_URI=your_mongo_connection_string
 JWT_SECRET=your_secret_key
 ```
-start the server
+###start the server
 
 ```bash
 node server.js
@@ -86,19 +86,19 @@ You can also serve it using Live Server in VS Code or host it.
 
 🧪 Sample JWT Auth Routes
 
-1.POST /api/register → Register a user
+1. POST /api/register → Register a user
 
-2.POST /api/login → Login with email/password
+2. POST /api/login → Login with email/password
 
-3.GET /api/profile → Get user data (JWT required)
+3. GET /api/profile → Get user data (JWT required)
 
 ✨ Future Improvements
 
-1.Game leaderboard tracking
+1. Game leaderboard tracking
 
-2.User profile page
+2. User profile page
 
-3.Add multiplayer support
+3. Add multiplayer support
 
 
 
