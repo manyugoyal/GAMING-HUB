@@ -24,7 +24,7 @@ A centralized web application that gives users access to multiple games from a s
 
 ---
 
-## 📂 Folder Structure (Optional)
+## 📂 Folder Structure 
 
 ```bash
 gaming-hub/
@@ -85,6 +85,7 @@ Open frontend/main.html in your browser.
 You can also serve it using Live Server in VS Code or host it.
 
 🧪 Sample JWT Auth Routes
+
 1.POST /api/register → Register a user
 
 2.POST /api/login → Login with email/password
@@ -92,11 +93,12 @@ You can also serve it using Live Server in VS Code or host it.
 3.GET /api/profile → Get user data (JWT required)
 
 ✨ Future Improvements
-Game leaderboard tracking
 
-!.User profile page
+1.Game leaderboard tracking
 
-2.Add multiplayer support
+2.User profile page
+
+3.Add multiplayer support
 
 
 
